@@ -49,16 +49,20 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 50px;
-  background-color: #31b3af;
+  background-color: #000000;
   opacity: 0.5;
 
   .container {
     padding-right: 15px;
     padding-left: 15px;
 
+    .float-center {
+       text-align: center;
+    }
+
     p {
-      margin: 19px 0;
-      color: #000000;
+      margin: 15px 0;
+      color: #fbfbfb;
 
       a {
         color: inherit;
