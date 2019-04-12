@@ -18,6 +18,9 @@ class UserAddress extends Model
         'contact_name',
         'contact_phone',
         'last_used_at',
+        'province_code',
+        'city_code',
+        'district_code',
     ];
     protected $dates = ['last_used_at'];
 
