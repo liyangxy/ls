@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Userinfo extends Model
+class UserInfo extends Model
 {
     protected $fillable = [
        'title', 'description', 'rating', 'view_count', 'user_id'
