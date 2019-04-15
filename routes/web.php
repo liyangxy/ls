@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', 'PagesController@root')->name('root');
+// Route::get('/', 'PagesController@root')->name('root');
+
+Route::redirect('/', '/users')->name('root');
+Route::get('users', 'UserInfosController@index')->name('users.index');
 
 Auth::routes(['verify' => true]);
 

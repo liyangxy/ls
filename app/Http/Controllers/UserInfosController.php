@@ -8,10 +8,15 @@ use App\Models\UserInfo;
 
 class UserInfosController extends Controller
 {
+    public function index(Request $request)
+    {
+        $users = UserInfo::query()->with('user')->paginate(16);
+        return view('users.index', ['users' => $users]);
+    }
+
     public function edit()
     {
         $user = \Auth::user();
-        // dd($user->userInfo->first()->image);
         return view('user_infos.edit', compact('user'));
     }
 
