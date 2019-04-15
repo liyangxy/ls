@@ -13,4 +13,7 @@ Route::group([
     $router->get('/', 'HomeController@index');
     $router->get('users', 'UsersController@index');
     $router->get('userinfos', 'UserInfoController@index');
+
+    $router->get('userinfos/{id}/edit', 'UserInfoController@edit');
+    $router->put('userinfos/{id}', 'UserInfoController@update');
 });

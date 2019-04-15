@@ -27,6 +27,7 @@
              {{ Auth::user()->name }}
            </a>
            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+             <a href="{{ route('user_infos.edit') }}" class="dropdown-item">编辑资料</a>
              <a href="{{ route('user_addresses.index') }}" class="dropdown-item">我的地址</a>
              <a class="dropdown-item" id="logout" href="#"
                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">退出登录</a>

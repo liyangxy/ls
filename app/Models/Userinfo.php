@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserInfo extends Model
 {
     protected $fillable = [
-       'title', 'description', 'rating', 'view_count', 'user_id'
+       'title', 'description', 'rating', 'view_count', 'user_id', 'image'
    ];
 
    public function user()

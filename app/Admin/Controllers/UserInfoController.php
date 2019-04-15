@@ -52,8 +52,7 @@ class UserInfoController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
-            ->description('description')
+            ->header('编辑用户信息')
             ->body($this->form()->edit($id));
     }
 
@@ -125,7 +124,12 @@ class UserInfoController extends Controller
     {
         $form = new Form(new UserInfo);
 
+        $form->text('title', '标题')->rules('required');
 
+        $form->image('image', '图片')->rules('required|image')->move('/uploads/images/user_images/'. date("Ym/d", time()))->name(function ($file) {
+            return \Auth::user()->id . '_' . time() . '_' . str_random(10) . '.' . $file->guessExtension();
+        });
+        $form->text('description', '介绍')->rules('required');
 
         return $form;
     }
