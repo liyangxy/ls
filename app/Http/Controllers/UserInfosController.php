@@ -44,7 +44,7 @@ class UserInfosController extends Controller
             }
         }
 
-        $users = $users->paginate(1);
+        $users = $users->paginate(16);
         return view('users.index', [
             'users' => $users,
             'filters' => ['search' => $search,  'order'  => $order],
