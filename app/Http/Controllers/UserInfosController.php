@@ -10,8 +10,26 @@ class UserInfosController extends Controller
 {
     public function index(Request $request)
     {
-        $users = UserInfo::query()->with('user')->paginate(16);
-        return view('users.index', ['users' => $users]);
+        $users = UserInfo::query()->with('user');
+
+        if ($search = $request->input('search', '')) {
+            $like = '%'.$search.'%';
+            $users->where(function ($query) use ($like) {
+                $query->where('title', 'like', $like)
+                    ->orWhere('description', 'like', $like);
+            });
+        }
+
+        if ($order = $request->input('order', '')) {
+            if (preg_match('/^(.+)_(asc|desc)$/', $order, $m)) {
+                if (in_array($m[1], ['view_count', 'rating'])) {
+                    $users->orderBy($m[1], $m[2]);
+                }
+            }
+        }
+
+        $users = $users->paginate(1);
+        return view('users.index', ['users' => $users, 'filters' => ['search' => $search,  'order'  => $order,]]);
     }
 
     public function edit()
