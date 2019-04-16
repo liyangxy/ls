@@ -7,6 +7,7 @@ use App\Models\UserAddress;
 use App\Models\UserInfo;
 use App\Models\Category;
 use App\Exceptions\InvalidRequestException;
+// use App\Services\CategoryService;
 
 class UserInfosController extends Controller
 {
@@ -48,6 +49,7 @@ class UserInfosController extends Controller
             'users' => $users,
             'filters' => ['search' => $search,  'order'  => $order],
             'category' => $category ?? null,
+            // 'categoryTree' => $categoryService->getCategoryTree(),
         ]);
     }
 
