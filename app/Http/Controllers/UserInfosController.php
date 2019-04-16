@@ -7,6 +7,7 @@ use App\Models\UserAddress;
 use App\Models\UserInfo;
 use App\Models\Category;
 use App\Exceptions\InvalidRequestException;
+use App\Http\Requests\UserInfoRequest;
 // use App\Services\CategoryService;
 
 class UserInfosController extends Controller
@@ -67,7 +68,7 @@ class UserInfosController extends Controller
         return view('user_infos.edit', compact('user'));
     }
 
-    public function update(Request $request)
+    public function update(UserInfoRequest $request)
     {
         $user = \Auth::user();
 
@@ -86,6 +87,10 @@ class UserInfosController extends Controller
         }
         if ($request->description) {
             $userInfoUpdate['description'] = $request->description;
+        }
+
+        if ($request->category) {
+            $userInfoUpdate['category_id'] = $request->category;
         }
 
         if ($request->image) {
