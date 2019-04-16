@@ -15,5 +15,10 @@ class UserInfo extends Model
        return $this->belongsTo(User::class);
    }
 
+   public function getImageUrlAttribute()
+   {
+       return config('app.url').'/'.$this->image;
+   }
+
 
 }

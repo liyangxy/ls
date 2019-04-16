@@ -15,6 +15,7 @@
 
 Route::redirect('/', '/users')->name('root');
 Route::get('users', 'UserInfosController@index')->name('users.index');
+Route::get('users/{userInfo}', 'UserInfosController@show')->name('users.show');
 
 Auth::routes(['verify' => true]);
 

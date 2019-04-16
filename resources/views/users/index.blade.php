@@ -30,9 +30,12 @@
         <div class="col-3 user-item">
           <div class="user-content">
             <div class="top">
-              <div class="img"><img src="{{ $user->image }}" alt=""></div>
+              <div class="img">
+                   <a href="{{ route('users.show', ['userInfo' => $user->id]) }}">
+                       <img src="{{ $user->image_url }}" alt=""></div>
+                   </a>
               <!-- <div class="price"><b>￥</b>{{ $user->price }}</div> -->
-              <div class="title">{{ $user->title }}</div>
+              <div class="title"><a href="{{ route('users.show', ['userInfo' => $user->id]) }}">{{ $user->title }}</a></div>
             </div>
             <div class="bottom">
               <div class="rating">评分 <span>{{ $user->rating }}</span></div>

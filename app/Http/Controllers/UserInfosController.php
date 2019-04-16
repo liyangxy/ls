@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserAddress;
 use App\Models\UserInfo;
+use App\Exceptions\InvalidRequestException;
 
 class UserInfosController extends Controller
 {
@@ -30,6 +31,14 @@ class UserInfosController extends Controller
 
         $users = $users->paginate(1);
         return view('users.index', ['users' => $users, 'filters' => ['search' => $search,  'order'  => $order,]]);
+    }
+
+    public function show(UserInfo $userInfo, Request $request)
+    {
+        if (!$userInfo) {
+            throw new InvalidRequestException('访问错误');
+        }
+        return view('users.show', ['userInfo' => $userInfo->load('user')]);
     }
 
     public function edit()
