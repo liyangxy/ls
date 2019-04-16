@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use App\Models\Category;
 
 class UserInfoController extends Controller
 {
@@ -78,10 +79,13 @@ class UserInfoController extends Controller
     protected function grid()
     {
         $grid = new Grid(new UserInfo);
+        // 使用 with 来预加载商品类目数据，减少 SQL 查询
+        $grid->model()->with(['category']);
 
         $grid->id('ID')->sortable();
         $grid->column('user.name', '用户');
         $grid->title('标题');
+        $grid->column('category.name', '类目');
 
         $grid->rating('评分');
         $grid->view_count('点击量');
@@ -125,6 +129,14 @@ class UserInfoController extends Controller
         $form = new Form(new UserInfo);
 
         $form->text('title', '标题')->rules('required');
+
+        // 添加一个类目字段，与之前类目管理类似，使用 Ajax 的方式来搜索添加
+        $form->select('category_id', '类目')->options(function ($id) {
+            $category = Category::find($id);
+            if ($category) {
+                return [$category->id => $category->full_name];
+            }
+        })->ajax('/admin/api/categories?is_directory=0');
 
         $form->image('image', '图片')->rules('required|image')->move('/uploads/images/user_images/'. date("Ym/d", time()))->name(function ($file) {
             return \Auth::user()->id . '_' . time() . '_' . str_random(10) . '.' . $file->guessExtension();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserAddress;
 use App\Models\UserInfo;
+use App\Models\Category;
 use App\Exceptions\InvalidRequestException;
 
 class UserInfosController extends Controller
@@ -21,6 +22,19 @@ class UserInfosController extends Controller
             });
         }
 
+        // 如果有传入 category_id 字段，并且在数据库中有对应的类目
+        if ($request->input('category_id') && $category = Category::find($request->input('category_id'))) {
+            if ($category->is_directory) {
+                // 则筛选出该父类目下所有子类目的商品
+                $users->whereHas('category', function ($query) use ($category) {
+                    // 这里的逻辑参考本章第一节
+                    $query->where('path', 'like', $category->path.$category->id.'-%');
+                });
+            } else {
+                $users->where('category_id', $category->id);
+            }
+        }
+
         if ($order = $request->input('order', '')) {
             if (preg_match('/^(.+)_(asc|desc)$/', $order, $m)) {
                 if (in_array($m[1], ['view_count', 'rating'])) {
@@ -30,7 +44,11 @@ class UserInfosController extends Controller
         }
 
         $users = $users->paginate(1);
-        return view('users.index', ['users' => $users, 'filters' => ['search' => $search,  'order'  => $order,]]);
+        return view('users.index', [
+            'users' => $users,
+            'filters' => ['search' => $search,  'order'  => $order],
+            'category' => $category ?? null,
+        ]);
     }
 
     public function show(UserInfo $userInfo, Request $request)
