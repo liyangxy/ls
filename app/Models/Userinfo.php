@@ -20,5 +20,10 @@ class UserInfo extends Model
        return config('app.url').'/'.$this->image;
    }
 
+   public function category()
+   {
+       return $this->belongsTo(Category::class);
+   }
+
 
 }
